@@ -16,6 +16,18 @@ def homepage():
 
     return render_template("homepage.html")
 
+@app.route('/login')
+def login():
+    """Displays the login page"""
+
+    return render_template("login-page.html")
+
+@app.route('/sign-up')
+def signup():
+    """Display sign-up page."""
+
+    return render_template("login-page.html")
+
 
 
 if __name__ == '__main__':
