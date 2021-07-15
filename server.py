@@ -26,7 +26,7 @@ def login():
 def signup():
     """Display sign-up page."""
 
-    return render_template("login-page.html")
+    return render_template("sign-up-page.html")
 
 
 
