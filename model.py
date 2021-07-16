@@ -6,7 +6,7 @@ from datetime import datetime
 db = SQLAlchemy()
 
 
-def connect_to_db(flask_app, db_uri='postgresql:///app_tracker', echo=True):
+def connect_to_db(flask_app, db_uri='postgresql:///tracker', echo=True):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     flask_app.config['SQLALCHEMY_ECHO'] = echo
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -21,7 +21,7 @@ def connect_to_db(flask_app, db_uri='postgresql:///app_tracker', echo=True):
 class User(db.Model):
     """A user."""
 
-    __tablename__ = "user"
+    __tablename__ = "app_user"
 
     user_id = db.Column(db.Integer, 
                         autoincrement = True,
@@ -32,9 +32,9 @@ class User(db.Model):
     job_title = db.Column(db.String)
     email = db.Column(db.String)
     password = db.Column(db.String)
-    picture = db.Column(db.String, default = "image_here")
     city = db.Column(db.String)
     state = db.Column(db.String)
+    picture = db.Column(db.String, default = "image_here")
 
     def __repr__(self):
         return f"User_ID: {self.user_id}, Username: {self.username}, Full Name: {self.fname} {self.lname}, Title: {self.title}, Email: {self.email}, Location: {self.city} {self.state}"
@@ -48,7 +48,7 @@ class User_Link(db.Model):
     user_link_id = db.Column(db.Integer, 
                             autoincrement = True,
                             primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.user_id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("app_user.user_id"))
     portfolio_url = db.Column(db.String)
     github_url = db.Column(db.String)
     linkedin_url = db.Column(db.String)
@@ -66,7 +66,7 @@ class Resume_Bio(db.Model):
     resume_id = db.Column(db.Integer,
                             autoincrement = True,
                             primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.user_id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("app_user.user_id"))
     upload_resume = db.Column(db.String, default = None)
     type_resume = db.Column(db.String, default = None)
     bio = db.Column(db.String, default = None)
@@ -84,7 +84,7 @@ class Job_Info(db.Model):
     job_info_id = db.Column(db.Integer,
                             autoincrement = True,
                             primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.user_id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("app_user.user_id"))
     company_name = db.Column(db.String)
     title = db.Column(db.String)
     worked_from = db.Column(db.String)
@@ -104,7 +104,7 @@ class User_App(db.Model):
     app_id = db.Column(db.Integer,
                         autoincrement = True,
                         primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.user_id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("app_user.user_id"))
     company_name = db.Column(db.String)
     company_link = db.Column(db.String)
     job_posting_link = db.Column(db.String)
@@ -126,7 +126,7 @@ class Reference(db.Model):
     reference_id = db.Column(db.Integer,
                             autoincrement = True,
                             primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.user_id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("app_user.user_id"))
     name = db.Column(db.String)
     email = db.Column(db.String)
     phone = db.Column(db.String)
@@ -147,7 +147,7 @@ class Interview(db.Model):
     interview_id = db.Column(db.Integer,
                             autoincrement = True,
                             primary_key = True)
-    app_id = db.Column(db.Integer, db.ForeignKey("app.app_id"))
+    app_id = db.Column(db.Integer, db.ForeignKey("user_app.app_id"))
     interview_type = db.Column(db.String)
     interview_date = db.Column(db.String)
     contact_name = db.Column(db.String)
@@ -166,7 +166,7 @@ class Cover_Letter(db.Model):
     cover_letter_id = db.Column(db.Integer, 
                                 autoincrement = True,
                                 primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.user_id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("app_user.user_id"))
     upload_letter = db.Column(db.String, default = None)
     type_letter = db.Column(db.String, default = None)
     label = db.Column(db.String)
@@ -183,7 +183,7 @@ class Follow_Up(db.Model):
     follow_up_id = db.Column(db.Integer, 
                             autoincrement = True,
                             primary_key = True)
-    app_id = db.Column(db.Integer, db.ForeignKey("app.app_id"))
+    app_id = db.Column(db.Integer, db.ForeignKey("user_app.app_id"))
     date = db.Column(db.Integer)
     method = db.Column(db.String)
     contact_name = db.Column(db.String)

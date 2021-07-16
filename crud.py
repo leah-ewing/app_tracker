@@ -4,7 +4,7 @@ import psycopg2
 from model import db, User, User_Link, Resume_Bio, Job_Info, User_App, Reference, Interview, Cover_Letter, Follow_Up, Interview_Link 
 
 
-def create_user(username, fname, lname, job_title, email, password, picture, city, state):
+def create_user(username, fname, lname, job_title, email, password, city, state, picture):
     """Create and return a new user."""
 
     user = User(username = username,
@@ -13,9 +13,9 @@ def create_user(username, fname, lname, job_title, email, password, picture, cit
                 job_title = job_title,
                 email = email,
                 password = password,
-                picture = picture,
                 city = city,
-                state = state)
+                state = state,
+                picture = picture)
 
     db.session.add(user)
     db.session.commit()
@@ -68,6 +68,7 @@ def create_job_info(user_id, company_name, title, worked_from, worked_to, curren
     db.session.commit()
 
     return job_info
+    
 
 def create_user_app(user_id, company_name, company_link, job_posting_link, posted_salary, followed_up, interview, hired, notes):
     """Adds an application to a user's profile."""
@@ -162,6 +163,44 @@ def create_interview_link(interview_id, link):
     db.session.commit()
 
     return interview_link
+
+
+def get_username(email):
+    """Gets a user's username by email."""
+
+    return User.query.filter(User.username == email).first()
+
+
+def get_user_by_email(email):
+    """Return a user by email."""
+
+    return User.query.filter(User.email == email).first()
+
+
+def get_user_fname(email):
+    """Return a user's first name by email."""
+
+    users = User.query.all()
+
+    for user in users:
+        if user.email == email:
+            return user.fname
+
+
+def get_user_lname(email):
+    """Return a user's last name by email."""
+
+    users = User.query.all()
+
+    for user in users:
+        if user.email == email:
+            return user.lname
+
+
+def login_user(email, password):
+    """Returns a user by email and password."""
+
+    return User.query.filter(User.email == email, User.password == password).first()
 
 
 if __name__ == '__main__':
