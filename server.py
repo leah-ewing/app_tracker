@@ -10,7 +10,7 @@ app.jinja_env.undefined = StrictUndefined
 
 
 
-@app.route('/', methods = ["POST"])
+@app.route('/')
 def homepage():
     """Display the homepage"""
 
@@ -30,6 +30,7 @@ def login():
 
     return render_template("login-page.html")
 
+
 @app.route('/user-profile', methods = ["POST"])
 def loginUser():
     """Login user and redirect them to their profile"""
@@ -40,11 +41,21 @@ def loginUser():
 
     if valid_user:
         session["current_user"] = email
-        return render_template("user-profile")
+        flash("Welcome back!")
+        return render_template("user-profile.html")
     else:
         flash("Invalid login, please try again")
         return redirect('/')
 
+@app.route('/logout', methods = ["POST"])
+def logout():
+    """Logout user and redirect them to the homepage."""
+
+    if "current_user" in session:
+        session["current_user"] = None
+        # session.pop("email") # not sure if I'll need this later or not
+        flash("You have been signed out!")
+        return redirect('/')
 
 
 
