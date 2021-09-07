@@ -36,7 +36,7 @@ def login():
     """Display the login page"""
 
     if "current_user" in session:
-        current_user = session["current_user"]
+        return redirect('/')
     else:
         return render_template("login-page.html", current_user = None)
 
@@ -66,7 +66,7 @@ def loginUser():
         return redirect('/profile-page')
     else:
         flash("Invalid login, please try again")
-        return redirect('/')
+        return redirect('/login')
 
 
 @app.route('/logout', methods = ["POST"])
@@ -104,7 +104,7 @@ def createAccount():
         return redirect("/sign-up")
     elif user_email:
         flash("Profile already exists, please login")
-        return redirect("/sign-up")
+        return redirect("/login")
     elif len(fname) > 25:
         flash("Please limit first name to 25 characters")
         return redirect("/sign-up")
