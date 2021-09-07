@@ -25,7 +25,10 @@ def homepage():
 def signUp():
     """Display the sign-up page"""
 
-    return render_template("sign-up-page.html")
+    if "current_user" in session:
+        return redirect('/')
+    else:
+        return render_template("sign-up-page.html", current_user = None)
 
 
 @app.route('/login')
@@ -55,11 +58,11 @@ def loginUser():
     email = request.form.get("email")
     password = request.form.get("password")
     valid_user = crud.login_user(email, password)
+    fname = crud.get_user_fname(email)
 
     if valid_user:
         session["current_user"] = email
-        flash("Welcome back!")
-        # return render_template("user-profile.html", current_user = "current_user")
+        flash(f"Welcome back, {fname}!")
         return redirect('/profile-page')
     else:
         flash("Invalid login, please try again")
@@ -77,6 +80,48 @@ def logout():
         return render_template("homepage.html", current_user = None)
     else:
         return redirect('/')
+
+
+@app.route('/create-account', methods = ["POST"])
+def createAccount():
+    """Create a new user and redirect them to their profile page."""
+
+    username = request.form.get("username")
+    fname = request.form.get("fname")
+    lname = request.form.get("lname")
+    job_title = request.form.get("job_title")
+    email = request.form.get("email")
+    password = request.form.get("password")
+    city = request.form.get("city")
+    state = request.form.get("state")
+    picture = "Image Here"
+
+    user_username = crud.user_username(username)
+    user_email = crud.get_user_by_email(email)
+
+    if user_username:
+        flash("Username not available")
+        return redirect("/sign-up")
+    elif user_email:
+        flash("Profile already exists, please login")
+        return redirect("/sign-up")
+    elif len(fname) > 25:
+        flash("Please limit first name to 25 characters")
+        return redirect("/sign-up")
+    elif len(lname) > 25:
+        flash("Please limit last name to 25 characters")
+        return redirect("/sign-up")
+    elif len(username) > 25:
+        flash("Please limit username to 25 characters")
+        return redirect("/sign-up")
+    else:
+        crud.create_user(username, fname, lname, job_title, email, password, city, state, picture)
+        valid_user = crud.login_user(email, password)
+        if valid_user:
+            session["current_user"] = email
+            flash(f"Welcome back, {fname}!")
+            return redirect('/profile-page')
+
 
 
 
