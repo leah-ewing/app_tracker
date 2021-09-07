@@ -9,14 +9,19 @@
 
 LOGIN PAGE! :D
 
-<br><br>
-<form action = "/login" method = "POST">
-    <div class = "login">
-        <input id = "email" type = "email" placeholder = "Email" required /><br><br>
-        <input id = "password" type = "password" placeholder = "Password" required /><br><br>
-        <button type = "submit">Login!</button>
+<div class="login-page container-fluid">
+    <br><br>Please Enter Log-in Info:</h2><br><br>
+        <form method = "POST" action = "/">
+        <div class = "login">
+            <label for = "email">Email</label><br>
+            <input id = "email" type = "email" name = "email" required /></textarea><br>
+            <label for = "password">Password</label><br>
+            <input id = "password" type = "password" name = "password" required /></textarea><br>
+        </div><br>
+        <div class = "login">
+            <button class="login-button" type = "submit" id = "submit-info">Login</button>
+        </div></form><br><br>
     </div>
-</form>
 
 
 {% endblock %}

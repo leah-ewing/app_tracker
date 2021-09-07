@@ -30,7 +30,7 @@ class User(db.Model):
     fname = db.Column(db.String)
     lname = db.Column(db.String)
     job_title = db.Column(db.String)
-    email = db.Column(db.String)
+    email = db.Column(db.String, unique = True)
     password = db.Column(db.String)
     city = db.Column(db.String)
     state = db.Column(db.String)
@@ -54,6 +54,8 @@ class User_Link(db.Model):
     linkedin_url = db.Column(db.String)
     other_url = db.Column(db.String)
 
+    app_user = db.relationship("User", backref = "user_link")
+
     def __repr__(self):
         return f"User Link ID: {self.user_link_id}, User ID: {self.user_id}, Portfolio: {self.portfolio_url}, Github: {self.github_url}, LinkedIn: {self.linkedin_url} Other: {self.other_url}"
 
@@ -71,6 +73,8 @@ class Resume_Bio(db.Model):
     type_resume = db.Column(db.String, default = None)
     bio = db.Column(db.String, default = None)
     label = db.Column(db.String)
+
+    app_user = db.relationship("User", backref = "resume_bio")
 
     def __repr__(self):
         return f"Resume ID: {self.resume_id}, User ID: {self.user_id}, Uploaded: {self.upload_resume}, Typed: {self.type_resume}, Bio: {self.bio}, Label: {self.label}"
@@ -91,6 +95,8 @@ class Job_Info(db.Model):
     worked_to = db.Column(db.String, default = "N/A")
     currently_working = db.Column(db.String, default = "No")
     job_description = db.Column(db.String)
+
+    app_user = db.relationship("User", backref = "log_info")
 
     def __repr__(self):
         return f"Job Info ID: {self.job_info_id}, User ID: {self.user_id}, Company: {self.company_name}, Title: {self.title}, Dates Worked: {self.worked_from}-{self.worked_to} Still Working? {self.currently_working}, Job Description: {self.job_description}"
@@ -114,6 +120,8 @@ class User_App(db.Model):
     hired = db.Column(db.String, default = "No")
     notes = db.Column(db.String)
 
+    app_user = db.relationship("User", backref = "user_app")
+
     def __repr__(self):
         return f"App ID: {self.app_id}, User ID: {self.user_id}, Company: {self.company_name}, Company URL: {self.company_link}, Job Posting: {self.job_posting_link}, Posted Salary: {self.posted_salary}, Followed Up? {self.followed_up}, Interview? {self.interview}, Hired? {self.hired}, Notes: {self.notes}"
 
@@ -134,6 +142,8 @@ class Reference(db.Model):
     reference_type = db.Column(db.String)
     years_known = db.Column(db.Integer)
     company = db.Column(db.String, default = None)
+
+    app_user = db.relationship("User", backref = "reference")
 
     def __repr__(self):
         return f"Reference ID: {self.reference_id}, User ID: {self.user_id}, Name: {self.name}, Email: {self.email}, Phone: {self.phone}, Address: {self.address}, Reference Type: {self.reference_type}, Years Known: {self.years_known}, Company: {self.company}"
@@ -171,6 +181,8 @@ class Cover_Letter(db.Model):
     type_letter = db.Column(db.String, default = None)
     label = db.Column(db.String)
 
+    app_user = db.relationship("User", backref = "cover_letter")
+
     def __repr__(self):
         f"Cover Letter ID: {self.cover_letter_id}, User ID: {self.user_id}, Upload Letter: {self.upload_letter}, Type Letter: {self.type_letter}, Label: {self.label}"
 
@@ -190,6 +202,8 @@ class Follow_Up(db.Model):
     contact_email = db.Column(db.String)
     notes = db.Column(db.String)
 
+    user_app = db.relationship("User_App", backref = "follow_up")
+
     def __repr__(self):
         f"Follow Up ID: {self.follow_up_id}, App ID: {self.app_id}, Date: {self.date}, Method: {self.method}, Contact Name: {self.contact_name}, Contact Email: {self.contact_email}, Notes: {self.notes}"
 
@@ -204,6 +218,8 @@ class Interview_Link(db.Model):
                                     primary_key = True)
     interview_id = db.Column(db.Integer, db.ForeignKey("interview.interview_id"))
     link = db.Column(db.Integer)
+
+    interview = db.relationship("Interview", backref = "interview_link")
 
     def __repr__(self):
         f"Inteview Link ID: {self.interview_link_id}, Interview ID: {self.interview_id}, Link: {self.link}"
