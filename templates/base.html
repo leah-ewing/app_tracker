@@ -15,11 +15,12 @@
 
         <a href = '/'>Home</a><br><br>
 
+        {% if current_user != None %}
         <!-- <a href = '/logout', method = "POST">Logout</a><br><br> -->
         <div class = "logout">
             <form method = "POST" action = "/logout">
             <button class = "logout-button" type = "submit">Logout</button></form></div>
-
+        {% endif %}
 
     {% endblock %}
 

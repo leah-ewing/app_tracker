@@ -14,7 +14,11 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     """Display the homepage"""
 
-    return render_template("homepage.html")
+    if "current_user" in session:
+        current_user = session["current_user"]
+        return render_template("user-profile.html", current_user = "current_user")
+    else:
+        return render_template("homepage.html", current_user = None)
 
 
 @app.route('/sign-up')
@@ -28,10 +32,23 @@ def signUp():
 def login():
     """Display the login page"""
 
-    return render_template("login-page.html")
+    if "current_user" in session:
+        current_user = session["current_user"]
+    else:
+        return render_template("login-page.html", current_user = None)
 
 
-@app.route('/user-profile', methods = ["POST"])
+@app.route('/profile-page')
+def userProfile():
+    """Displays a user's profile page"""
+
+    if "current_user" in session:
+        return render_template("user-profile.html", current_user = "current_user")
+    else:
+        return redirect('/')
+
+
+@app.route('/login-user', methods = ["POST"])
 def loginUser():
     """Login user and redirect them to their profile"""
 
@@ -42,10 +59,12 @@ def loginUser():
     if valid_user:
         session["current_user"] = email
         flash("Welcome back!")
-        return render_template("user-profile.html")
+        # return render_template("user-profile.html", current_user = "current_user")
+        return redirect('/profile-page')
     else:
         flash("Invalid login, please try again")
         return redirect('/')
+
 
 @app.route('/logout', methods = ["POST"])
 def logout():
@@ -53,10 +72,11 @@ def logout():
 
     if "current_user" in session:
         session["current_user"] = None
-        # session.pop("email") # not sure if I'll need this later or not
+        session.pop("current_user")
         flash("You have been signed out!")
+        return render_template("homepage.html", current_user = None)
+    else:
         return redirect('/')
-
 
 
 
