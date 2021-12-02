@@ -45,8 +45,18 @@ def login():
 def userProfile():
     """Displays a user's profile page"""
 
+    email = session["current_user"]
+    fname = crud.get_user_fname(email)
+    lname = crud.get_user_lname(email)
+    city = crud.get_user_city(email)
+    state = crud.get_user_state(email)
+    job_title = crud.get_user_job_title(email)
+    picture = crud.get_user_photo(email)
+
     if "current_user" in session:
-        return render_template("user-profile.html", current_user = "current_user")
+        return render_template("user-profile.html", current_user = "current_user", 
+        fname = fname, email = email, lname = lname, city = city, state = state,
+        job_title = job_title, picture = picture)
     else:
         return redirect('/')
 

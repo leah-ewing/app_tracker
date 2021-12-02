@@ -196,6 +196,42 @@ def get_user_lname(email):
         if user.email == email:
             return user.lname
 
+def get_user_city(email):
+    """Return a user's city by email."""
+
+    users = User.query.all()
+
+    for user in users:
+        if user.email == email:
+            return user.city
+
+def get_user_state(email):
+    """Return a user's state by email."""
+
+    users = User.query.all()
+
+    for user in users:
+        if user.email == email:
+            return user.state
+
+def get_user_job_title(email):
+    """Return a user's job title by email."""
+
+    users = User.query.all()
+
+    for user in users:
+        if user.email == email:
+            return user.job_title
+
+def get_user_photo(email):
+    """Returns a user's photo by email."""
+
+    users = User.query.all()
+
+    for user in users:
+        if user.email == email:
+            return user.picture
+
 
 def login_user(email, password):
     """Returns a user by email and password."""
