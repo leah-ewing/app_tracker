@@ -1,5 +1,5 @@
-from flask import (Flask,render_template, request, flash, session, redirect)
-from model import connect_to_db
+from flask import (Flask, render_template, request, flash, session, redirect)
+from model import User, connect_to_db
 import crud, requests
 from jinja2 import StrictUndefined
 from datetime import datetime
@@ -7,7 +7,6 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
-
 
 
 @app.route('/')

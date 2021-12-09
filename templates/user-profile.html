@@ -6,21 +6,52 @@
 
 {% block body %}
 
+<script
+    src="https://code.jquery.com/jquery-3.5.1.js"
+    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous">
+</script>
+
+<!-- Javascript file -->
+<!-- <script src="../static/static.js"></script> -->
+<script src="/static/static.js"></script>
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+
 - Your Profile -
 
 <br><br>
 
-<h3><b>{{fname}} {{lname}}</b></h3> <br>
+<h3><b>{{fname}} {{lname}}</b></h3>
 
-{{picture}}<br><br><br>
+<img class = "user-photo"
+id = "user-photo"
+src = {{picture}}
+width = 150
+alt = {{picture}}> <br>
+<!-- <small><i>*** add/edit button ***</i></small> -->
+
+<!-- <div class = "add_user_photo" id = "add_user_photo"><a href=""><small>Add/Update</small></a></div> -->
+
+<!-- <div class="form-popup" id="add-user-photo">
+  <form action="/action_page.php" class="form-container">
+    <label for="add-photo"><b>Upload Photo:</b></label>
+    <input type = "file" name = "add-photo" required><br><br>
+        <button type = "submit" name = "add-photo">Submit</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  </form>
+</div> -->
+
+<button id = "add">Upload</button>
+<!-- *** -->
+<!-- <text id = "test-text"></text> -->
+
+<br><br>
 
 {{job_title}} <br>
 {{city}}, {{state}} <br>
 {{email}} <br>
-<small>***links here with add button***</small>
-
-
-
+<small><i>***user links here with add button***</i></small>
 
 
 </body>

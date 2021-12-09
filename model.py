@@ -34,7 +34,7 @@ class User(db.Model):
     password = db.Column(db.String)
     city = db.Column(db.String)
     state = db.Column(db.String)
-    picture = db.Column(db.String, default = "image_here")
+    picture = db.Column(db.String)
 
     def __repr__(self):
         return f"User_ID: {self.user_id}, Username: {self.username}, Full Name: {self.fname} {self.lname}, Title: {self.title}, Email: {self.email}, Location: {self.city} {self.state}"

@@ -23,6 +23,6 @@ c_email = "leah@test.test"
 c_password = "test"
 c_city = "Nashville"
 c_state = "TN"
-c_picture = "image here"
+c_picture = "https://cdn.dribbble.com/users/26684/screenshots/10877696/media/d3d1d16d38cd66dfa315ffd89bb58536.png?compress=1&resize=400x300"
 
 creator = crud.create_user(c_username, c_fname, c_lname, c_job_title, c_email, c_password, c_city, c_state, c_picture)
